@@ -1,5 +1,5 @@
 # 基于python的Riemann猜想验证及 $\zeta$ 函数的零点计算
-<p align='right'><font size=4px>USTC 数学科学学院 杨萱泽</font></p>
+<p align='right'><font size=4px>USTC, School of Mathematics, Young</font></p>
 
 ## 1 科学技术原理
 
@@ -59,7 +59,7 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
 
 #### 1.2.3 Backlund 零点计数定理
 
-&emsp;&emsp;对于有界特征带 $C_T={z: 0<\mathfrak{R}z<1\quad 0<\mathfrak{I}z<T }$ ， $\zeta$ 函数在其中的零点个数有如下的刻画：[^4]
+&emsp;&emsp;对于有界特征带 $C_T$ 表示实部在0到1，虚部在0到T中的复数， $\zeta$ 函数在其中的零点个数有如下的刻画：[^4]
 > Backlund零点计数定理：用 $N(T)$ 表示 $\zeta$ 函数在 $C_T$ 上的零点个数，假设 $\zeta(s)$ 在线段 ${ \sigma+iT : 0 \leq \sigma \leq 1 }$ 上没有零点，则有 $N(T)=$ 和 $\frac{\theta(T)}{\pi}+1 \tag{13}$最接近的自然数。
 
 从而，只需要计算出(6)中定义的 $\theta(T)$ ，即可得出在 $C_T$ 上的零点总数。
@@ -67,7 +67,7 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
 #### 1.2.4 介值定理
 
 &emsp;&emsp;对于实值函数，我们有如下的定理：
-> 介值定理：设 $f$ 是 $\mathbb{R}$ 上的实值连续函数，如果 $$\exist a < b,\ s.t.\ f(a)\cdot f(b) < 0$ $则 $f$ 在区间 $(a, b)$ 上必有零点。
+> 介值定理：设 $f$ 是 $\mathbb{R}$ 上的实值连续函数，如果存在 $a < b, s.t. f(a)\cdot f(b) < 0$, 则 $f$ 在区间 $(a, b)$ 上必有零点。
 
 ## 2 设计方案
 
@@ -77,8 +77,8 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
 
 - 步骤1: 对于给定的 $T$ ，将特征带限制为有界特征带 $C_T$ ，验证 $\zeta$ 函数在有界特征带上的非平凡零点都在特征线上；
 - 步骤2：由(13)，计算出 $\zeta(s)$ 在 $C_T$ 上的零点总数 $N(T)$ ；
-- 步骤3：计算 $\zeta(s)$ 在 $C_T$ 中的特征线上的零点个数，也即关于 $t$ 的函数 $\zeta(\frac{1}{2}+it)$ 在 $0<t<T$ 上的零点个数，记作 $M(T)$ ；
-- 步骤4：比较 $N(T)$ 与 $M(T)$ 是否相等，若相等，则在 $C_T$ 上验证了Riemann猜想；
+- 步骤3：计算 $\zeta(s)$ 在 $C_T$ 中的特征线上的零点个数，记作 $M(T)$ ；
+- 步骤4：比较N(T)与M(T)是否相等，若相等，则在 $C_T$ 上验证了Riemann猜想；
 
 &emsp;&emsp;需要补充说明的是，在步骤2中，我们注意到 $\zeta(\frac{1}{2}+it)$ 和 $Z(t)$ 有相同的零点，从而只需要计算 $Z(t)$ 的零点个数；而 $Z(t)$ 是连续的实函数，可以用介值定理来“探测”其零点。
 
@@ -129,7 +129,7 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
   函数功能：在有界特征带$C_T$上验证Riemann猜想，并将找到的零点存在区间和程序运行时间写入文件中
   参数说明：T-有界特征带的上界，float类型；delta-对 $Z(t)$ 的采样的步长，float类型
   返回值：True若Riemann猜想验证成功；否则返回False
-  实现方法：对$\Zeta(t)$进行以delta为步长的采样，若发现在某个t和t+delta处，$Z(t)$ 出现变号，也即 $Z(t)\cdot \Zeta(t+delta) < 0$ ，则可以判断在这个区间内存在零点，count_zeros加1，并将此区间和零点编号写入文件中；完成上述过程后，将运行时间也写入文件中，同时得出找到的零点个数count_zeros，将它与预期的零点个数zeros_number(T)对比，如果相等，则成功验证Riemann猜想，返回True；否则返回False.
+  实现方法：对 $Z(t)$ 进行以delta为步长的采样，若发现在某个t和t+delta处，$Z(t)$ 出现变号，也即 $Z(t)\cdot Z(t+delta) < 0$ ，则可以判断在这个区间内存在零点，count_zeros加1，并将此区间和零点编号写入文件中；完成上述过程后，将运行时间也写入文件中，同时得出找到的零点个数count_zeros，将它与预期的零点个数zeros_number(T)对比，如果相等，则成功验证Riemann猜想，返回True；否则返回False.
 
 #### 2.2.2 compute_zeta.py
 
@@ -160,10 +160,10 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
   返回值：无
   实现方法：调用check_RH.py中定义的compute_zeta_AS函数，计算 $\zeta(\frac{1}{2}+it)$ 的值，从而得到实部和虚部；调用了matplotlib.animation库中的FuncAnimation模块，用于绘制并保存gif格式的动态函数图像
 - compare(begin, end, step=0.1)
-  函数功能：在同一个坐标系下绘制 $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert$ 和 $\Zeta(t)$ 的函数图像，验证关系式 $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert=\left\lvert \Zeta(t) \right\rvert$ 
+  函数功能：在同一个坐标系下绘制 $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert$ 和 $Z(t)$ 的函数图像，验证关系式 $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert=\left\lvert Z(t) \right\rvert$ 
   参数说明：begin-参数t的最小值，float类型（出于精度要求，begin不能小于0.2）；end-参数t的最大值，float类型；step-采样的步长，float类型，默认值为0.1
   返回值：无
-  实现方法：调用check_RH.py中定义的compute_Zeta_AS和compute_zeta_AS函数，用于计算 $\zeta(\frac{1}{2}+it)$和$\Zeta(t)$ 的函数值；调用了matplotlib库中的绘图模块
+  实现方法：调用check_RH.py中定义的compute_Zeta_AS和compute_zeta_AS函数，用于计算 $\zeta(\frac{1}{2}+it)$和 $Z(t)$ 的函数值；调用了matplotlib库中的绘图模块
 - zeta_critical_line_real_imag(begin, end, step=0.1)
   函数功能：绘制 $\zeta(\frac{1}{2}+it)$ 的实部、虚部的图像，并加以对比
   参数说明：begin-参数t的最小值，float类型（出于精度要求，begin不能小于0.4）；end-参数t的最大值，float类型；step-采样的步长，float类型，默认值为0.1
@@ -172,15 +172,15 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
 
 ## 3 创新性描述
 
-分析用交错级数方法和Riemann-Siegel方法逼近 $\zeta(s)$ 或 $Z(t)$ 的时间复杂度，可以得知：在给定误差上界的情况下，式(2)中累加的项数为 $O(\left\lvert t \right\rvert)$ ，而式(9)中累加的项数为 $O(\sqrt{\left\lvert t \right\rvert})$ 。从而在$T$较大时，使用Riemann-Siegel方法的计算效率会明显高于交错级数方法。
+分析用交错级数方法和Riemann-Siegel方法逼近 $\zeta(s)$ 或 $Z(t)$ 的时间复杂度，可以得知：在给定误差上界的情况下，式(2)中累加的项数为 $O(\left\lvert t \right\rvert)$ ，而式(9)中累加的项数为 $O(\sqrt{\left\lvert t \right\rvert})$ 。从而在 $T$ 较大时，使用Riemann-Siegel方法的计算效率会明显高于交错级数方法。
 
 另一方面，使用式(2)计算时，误差项 $\gamma_n(s)$ 可以任意小，而式(9)中累加次数 $m$ 是由 $t$ 确定的，只有在 $\left\lvert t \right\rvert$ 较大时，才能通过误差项公式 $\left\lvert R_0(t) \right\rvert \leq 0.127t^{-3/4},\ \left\lvert R_1(t) \right\rvert \leq 0.053t^{-5/4}$ 有效地控制误差，因此从计算精度考虑，交错级数方法的计算误差能被更好地控制。
 
-综合来看，$\left\lvert t \right\rvert$ 较小时，我们使用交错级数方法，此时累加次数虽然是 $O(\left\lvert t \right\rvert)$ ，但是由于 $\left\lvert t \right\rvert$ 不太大，所需要地绝对时间仍然可以接受； $\left\lvert t \right\rvert$ 较大时，我们使用Riemann-Siegel公式，此时由于 $\left\lvert t \right\rvert$ 较大，误差项能被控制在可以接受的范围内，并且此时的计算效率也相对较高。
+综合来看，当 $t$ 的模长较小时，我们使用交错级数方法，此时累加次数虽然是 $O(\left\lvert t \right\rvert)$ ，但是由于 $\left\lvert t \right\rvert$ 不太大，所需要地绝对时间仍然可以接受； $\left\lvert t \right\rvert$ 较大时，我们使用Riemann-Siegel公式，此时由于 $\left\lvert t \right\rvert$ 较大，误差项能被控制在可以接受的范围内，并且此时的计算效率也相对较高。
 
 具体而言，我们选定两种计算方法的分界点为CHANGE_METHOD=200，此时用Riemann-Siegel方法的计算误差项满足 $$\left\lvert R_1(t) \right\rvert \leq 0.053t^{-5/4}\leq 7\times 10^{-5}$$ 足够我们的要求。
 
-其次，本项目也从不同角度对 $\zeta$ 函数进行了可视化，包括 $\zeta$ 函数的实部、虚部在特征线上的动态变化图像，$\zeta$ 函数的模长和Riemann-Siegel-$Z$ 函数的对比图像， $\zeta$ 函数在特征线上的实部、虚部分别的图像（具体见第4.3）。
+其次，本项目也从不同角度对 $\zeta$ 函数进行了可视化，包括 $\zeta$ 函数的实部、虚部在特征线上的动态变化图像，zeta函数的模长和Riemann-Siegel- $Z$ 函数的对比图像， $\zeta$ 函数在特征线上的实部、虚部分别的图像（具体见第4.3）。
 
 ## 4 运行方法和参数设置
 
@@ -197,20 +197,20 @@ $$\zeta(s)=\sum_{n=1}^\infty \frac{1}{n^s} \tag{1}$$
 此程序会在当前目录生成一个名为"zeros_records.txt"的文本文件，其中每行存储了零点的编号、存在区间，例如
 
 > Zero No.1:	(14.1, 14.2)
-Zero No.2:	(21.0, 21.1)
-Zero No.3:	(25.0, 25.1)
+> Zero No.2:	(21.0, 21.1)
+> Zero No.3:	(25.0, 25.1)
 
 在此文本文件的最后存储了找到的零点个数和通过Backlund定理算出的零点个数，例如
 
 > Expecting 649.0 zeros.
-Find 649 zeros.
+> Find 649 zeros.
 
 比较上面的Expecting 649.0 zeros和Find 649 zeros，可以得知，在 $C_{1000}$ 上Riemann猜想成功验证。
 
 以及程序运行所用时间：
 
 > Total time cost: 280.6123475 seconds.
-Average time cost: 0.4323765 seconds per zero.
+> Average time cost: 0.4323765 seconds per zero.
 
 由于此程序运行时间较长，我们加入了进度条，从而可以直观地观测到程序的运行进度。
 
@@ -225,18 +225,18 @@ Average time cost: 0.4323765 seconds per zero.
 此程序会从文件FILE_NAME中读取零点的存在区间，并计算零点的精确值（精确到 $10^{-5}$ ），并在当前目录生成一个名为"compute_zeros.txt"的文本文件，其中存储了计算得出的前500个零点的数值，例如
 
 > Zero No 1:	14.13473
-Zero No 2:	21.02204
-Zero No 3:	25.01086
+> Zero No 2:	21.02204
+> Zero No 3:	25.01086
 
 在文件的最后存储了计算的精度和运行时间，例如
 
 > With accuracy: 1e-05
-Total time cost:	962.0139017 seconds.
-Average time cost:	1.9240278034 seconds per zero.
+> Total time cost:	962.0139017 seconds.
+> Average time cost:	1.9240278034 seconds per zero.
 
 可以通过修改全局变量ACCURACY的值来调节计算精度（默认为1e-5）。
 
-为了检验零点计算的准确性，我们可以将文件compute_zeros.txt中的计算结果和LMFDB(The L-functions and modular forms database)中的 [ $\zeta$ 函数零点表](https://www.lmfdb.org/zeros/zeta/) 对比，可见计算结果的小数点后前4位均为准确值。
+为了检验零点计算的准确性，我们可以将文件compute_zeros.txt中的计算结果和LMFDB(The L-functions and modular forms database)中的 [zeta函数零点表](https://www.lmfdb.org/zeros/zeta/) 对比，可见计算结果的小数点后前4位均为准确值。
 
 ### 4.3 drawing.py 运行方法
 
@@ -244,7 +244,7 @@ Average time cost:	1.9240278034 seconds per zero.
 
 > draw_zeta_critical_line(1, 50)
 
-并运行，可以得到在参数 $1<t<50$ 的 $\zeta(\frac{1}{2}+it)$ 的动态图像，并以"dynamical_zeta.gif"为名保存在当前目录下。
+并运行，可以得到在参数1<t<50的critical line上的zeta函数的动态图像，并以"dynamical_zeta.gif"为名保存在当前目录下。
 
 <img decoding="async" src=dymical_zeta.gif width="90%">
 
@@ -252,17 +252,17 @@ Average time cost:	1.9240278034 seconds per zero.
 
 > compare(0.2, 50)
 
-运行，可以得到在参数区间 $0.2<t<50$ 的 $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert$ 与 $Z(t)$ 的函数图像，如下
+运行，可以得到在参数区间0.2<t<50的critical line上zeta函数的模长与 $Z(t)$ 的函数图像，如下
 
-![Comparison between $\left\lvert \zeta(\frac{1}{2}+it) \right\rvert$ and $\Zeta(t)$ ](abs_Zeta.png)
+![Comparison](abs_Zeta.png)
 
 在程序的最后输入语句
 
 > zeta_critical_line_real_imag(0.4, 50)
 
-运行，可以得到参数区间 $0.4<t<50$ 上的 $\zeta(\frac{1}{2}+it)$ 的实部和虚部的图像，如下
+运行，可以得到参数区间0.4<t<50上的critical line上的zeta函数的实部和虚部的图像，如下
 
-![Comparison between $\mathfrak{R}\zeta(\frac{1}{2}+it)$ and $\mathfrak{I}\zeta(\frac{1}{2}+it)$ ](real_imag.png)
+![Comparison](real_imag.png)
 
 ## 5 学习心得和收获
 
